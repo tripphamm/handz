@@ -1,0 +1,54 @@
+{
+  "name": "handz",
+  "private": false,
+  "description": "A virtual show of hands",
+  "version": "0.1.0",
+  "author": "@tripphamm",
+  "dependencies": {
+    "@material-ui/core": "^4.0.1",
+    "@reach/router": "^1.2.1",
+    "firebase": "^6.0.4",
+    "gatsby": "^2.7.1",
+    "gatsby-image": "^2.1.1",
+    "gatsby-plugin-create-client-paths": "^2.0.5",
+    "gatsby-plugin-manifest": "^2.1.1",
+    "gatsby-plugin-offline": "^2.1.1",
+    "gatsby-plugin-react-helmet": "^3.0.12",
+    "gatsby-plugin-sharp": "^2.1.1",
+    "gatsby-source-filesystem": "^2.0.37",
+    "gatsby-transformer-sharp": "^2.1.19",
+    "prop-types": "^15.7.2",
+    "react": "^16.8.6",
+    "react-div-100vh": "^0.3.4",
+    "react-dom": "^16.8.6",
+    "react-helmet": "^5.2.1",
+    "react-minimal-pie-chart": "^4.0.0",
+    "react-spring": "^8.0.20"
+  },
+  "devDependencies": {
+    "eslint": "^5.16.0",
+    "eslint-config-prettier": "^4.3.0",
+    "eslint-plugin-prettier": "^3.1.0",
+    "eslint-plugin-react-hooks": "^1.6.0",
+    "prettier": "^1.17.1"
+  },
+  "keywords": [
+    "gatsby"
+  ],
+  "license": "MIT",
+  "scripts": {
+    "build": "gatsby build",
+    "develop": "gatsby develop",
+    "format": "prettier --write src/**/*.{js,jsx}",
+    "start": "npm run develop",
+    "serve": "gatsby serve",
+    "test": "echo \"Write tests! -> https://gatsby.dev/unit-testing\""
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/gatsbyjs/gatsby-starter-default"
+  },
+  "bugs": {
+    "url": "https://github.com/gatsbyjs/gatsby/issues"
+  }
+}
