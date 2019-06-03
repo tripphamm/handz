@@ -8,40 +8,8 @@ import { useAuth } from "../../state/auth"
 import { UserProvider } from "../../state/user"
 import { NotFound } from "./not-found"
 import { SessionProvider } from "../../state/session"
-import { useHeaderHeight } from "../../state/headerHeight"
 
 const App = () => {
-  React.useEffect(() => {
-    if (window) {
-      const userIsTabbingClass = "user-is-tabbing"
-
-      const handleNextTab = event => {
-        const code = event.keyCode ? event.keyCode : event.which
-        if (code === 9) {
-          // enable tabbing-mode
-          window.document.body.classList.add(userIsTabbingClass)
-          // stop listening for tabs
-          window.removeEventListener("keydown", handleNextTab)
-          // listen for a click to disable tabbing-mode
-          window.addEventListener("mousedown", handleNextClick)
-        }
-      }
-
-      const handleNextClick = () => {
-        // disable tabbing-mode
-        window.document.body.classList.remove(userIsTabbingClass)
-
-        // stop listening for clicks
-        window.removeEventListener("mousedown", handleNextClick)
-        // listen for a tab to enable tabbing-mode
-        window.addEventListener("keydown", handleNextTab)
-      }
-
-      // listen for a tab to enable tabbing-mode
-      window.addEventListener("keydown", handleNextTab)
-    }
-  }, [])
-
   const auth = useAuth()
 
   React.useEffect(() => {
@@ -71,8 +39,8 @@ const App = () => {
     <Layout>
       <UserProvider value={auth.user}>
         <Router id="handz-router">
-          <SessionProvider path="/app/:code" style={{ height: "100%" }}>
-            <Answer path="/" style={{ height: "100%" }} />
+          <SessionProvider path="/app/:code">
+            <Answer path="/" />
             <Results path="results" />
           </SessionProvider>
 

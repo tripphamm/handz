@@ -20,6 +20,7 @@ export function useAuth() {
             errorCode: undefined,
           })
         } else {
+          console.log(user.uid)
           // user signed in
           setAuthStatus({
             loading: false,

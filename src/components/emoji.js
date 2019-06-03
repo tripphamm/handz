@@ -3,7 +3,7 @@ import * as React from "react"
 import { getImageSrcByShortName } from "../utils/emojiUtil"
 
 export const Emoji = props => {
-  const { emojiShortName, size, ...htmlProps } = props
+  const { emojiShortName, size, style = {}, ...htmlProps } = props
 
   let emojiImageSize = 128
   if (size < 32) {
@@ -20,6 +20,11 @@ export const Emoji = props => {
 
   return (
     <img
+      style={{
+        height: size,
+        width: size,
+        ...style,
+      }}
       src={getImageSrcByShortName(emojiShortName, { size: emojiImageSize })}
       alt={`${emojiShortName.replace(/:/g, "").replace(/_/g, " ")} emoji`}
       {...htmlProps}

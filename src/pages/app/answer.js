@@ -1,9 +1,10 @@
 import React from "react"
+import { Button, Radio, RadioGroup, Typography } from "@material-ui/core"
+
 import { useUser } from "../../state/user"
 import { firestore } from "../../services/firebase"
 import { useResponses } from "../../state/session"
 import { AnimatedBar } from "../../components/animated-bar"
-import { animated, useSpring } from "react-spring"
 import { Emoji } from "../../components/emoji"
 
 function submitAnswer({ code, uid, isYes }) {
@@ -39,35 +40,6 @@ export const Answer = props => {
 
   const yesPercent = (100 * nYes) / nResponses
 
-  const yesLabelElRef = React.useRef(null)
-  const noLabelElRef = React.useRef(null)
-  const underlineWidth = 50
-  const [underlinePosition, setUnderlinePosition] = React.useState(null)
-  React.useEffect(() => {
-    if (!existingResponse) {
-      setUnderlinePosition(null)
-      return
-    }
-
-    const elRef = existingResponse.isYes ? yesLabelElRef : noLabelElRef
-
-    if (elRef.current === null) {
-      setUnderlinePosition(null)
-      return
-    }
-
-    const clientBoundingRect = elRef.current.getBoundingClientRect()
-
-    setUnderlinePosition(clientBoundingRect.x)
-  }, [existingResponse])
-
-  const animatedProps = useSpring({
-    transform:
-      underlinePosition !== null
-        ? `translateX(${underlinePosition.toString()}px)`
-        : "translateX(0px)",
-  })
-
   return (
     <div
       style={{
@@ -78,7 +50,9 @@ export const Answer = props => {
         gridTemplateRows: "10% 60% 20% 2px 10%",
       }}
     >
-      <h2 style={{ gridArea: "1 / 1" }}>{code}</h2>
+      <Typography variant="h4" component="p" style={{ gridArea: "1 / 1" }}>
+        {code}
+      </Typography>
       {!existingResponse && (
         <div
           style={{
@@ -95,7 +69,9 @@ export const Answer = props => {
               👇
             </span>
           </h2>
-          <h3 style={{ textAlign: "center" }}>Is your hand UP or DOWN?</h3>
+          <Typography style={{ textAlign: "center" }}>
+            Is your hand UP or DOWN?
+          </Typography>
           <h2 style={{ padding: 10 }}>
             <span role="img" aria-label="Downward-pointing-hand emoji">
               👇
@@ -115,9 +91,17 @@ export const Answer = props => {
             justifyContent: "space-evenly",
           }}
         >
-          <div style={{ height: "inherit" }}>
-            <h3 style={{ textAlign: "center" }}>{nYes}</h3>
-            <div style={{ height: "90%" }}>
+          <div
+            style={{
+              height: "inherit",
+              display: "flex",
+              flexDirection: "column",
+            }}
+          >
+            <Typography style={{ height: "10%", textAlign: "center" }}>
+              {nYes}
+            </Typography>
+            <div style={{ flexGrow: 1 }}>
               <AnimatedBar
                 color="rebeccapurple"
                 borderColor="#aaaaaa"
@@ -126,9 +110,17 @@ export const Answer = props => {
             </div>
           </div>
 
-          <div style={{ height: "inherit" }}>
-            <h3 style={{ textAlign: "center" }}>{nResponses - nYes}</h3>
-            <div style={{ height: "90%" }}>
+          <div
+            style={{
+              height: "inherit",
+              display: "flex",
+              flexDirection: "column",
+            }}
+          >
+            <Typography style={{ height: "10%", textAlign: "center" }}>
+              {nResponses - nYes}
+            </Typography>
+            <div style={{ flexGrow: 1 }}>
               <AnimatedBar
                 color="rebeccapurple"
                 borderColor="#aaaaaa"
@@ -138,74 +130,55 @@ export const Answer = props => {
           </div>
         </div>
       )}
-      <div
-        id="answer-radios"
+      <RadioGroup
+        aria-label="Hand up or down"
+        name="handz"
         style={{
           gridArea: "3 / 1 / auto / span 2",
+
           display: "flex",
           justifyContent: "space-evenly",
           alignItems: "center",
+          flexDirection: "row",
         }}
       >
-        <input
-          id="yes-radio"
-          className="visually-hidden"
-          type="radio"
-          name="answer-radios"
-          checked={existingResponse && existingResponse.isYes === true}
+        <Radio
+          inputProps={{ "aria-label": "Hand is up" }}
+          checked={Boolean(existingResponse) && existingResponse.isYes === true}
           onChange={event => {
             if (event.target.checked) {
               submitAnswer({ code, uid: user.id, isYes: true })
             }
           }}
+          icon={<Emoji size={64} emojiShortName=":person_raising_hand:" />}
+          checkedIcon={
+            <Emoji
+              size={80}
+              style={{ borderBottom: `2px solid` }}
+              emojiShortName=":person_raising_hand:"
+            />
+          }
         />
-        <label
-          style={{ height: "50%" }}
-          ref={yesLabelElRef}
-          htmlFor="yes-radio"
-        >
-          <Emoji
-            style={{ maxHeight: "100%" }}
-            emojiShortName=":person_raising_hand:"
-          />
-        </label>
-        <input
-          id="no-radio"
-          className="visually-hidden"
-          type="radio"
-          name="answer-radios"
-          checked={existingResponse && existingResponse.isYes === false}
+        <Radio
+          inputProps={{ "aria-label": "Hand is down" }}
+          checked={
+            Boolean(existingResponse) && existingResponse.isYes === false
+          }
           onChange={event => {
             if (event.target.checked) {
               submitAnswer({ code, uid: user.id, isYes: false })
             }
           }}
+          icon={<Emoji size={64} emojiShortName=":person_gesturing_no:" />}
+          checkedIcon={
+            <Emoji
+              size={80}
+              style={{ borderBottom: `2px solid` }}
+              emojiShortName=":person_gesturing_no:"
+            />
+          }
         />
-        <label style={{ height: "50%" }} ref={noLabelElRef} htmlFor="no-radio">
-          <Emoji
-            style={{ maxHeight: "100%" }}
-            emojiShortName=":person_gesturing_no:"
-          />
-        </label>
-      </div>
-      {existingResponse && (
-        <div
-          style={{
-            gridArea: "4 / 1 / auto / span 2",
-            width: "100%",
-            height: "2px",
-          }}
-        >
-          <animated.div
-            style={{
-              width: underlineWidth,
-              height: "100%",
-              backgroundColor: "rebeccapurple",
-              ...animatedProps,
-            }}
-          />
-        </div>
-      )}
+      </RadioGroup>
       <div
         style={{
           gridArea: "5 / 1 / auto / span 2",
@@ -214,19 +187,12 @@ export const Answer = props => {
           justifyContent: "center",
         }}
       >
-        <button
-          style={{
-            border: "1px solid rebeccapurple",
-            color: "rebeccapurple",
-            backgroundColor: "unset",
-            textTransform: "uppercase",
-            fontFamily:
-              "-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen, Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif",
-          }}
+        <Button
+          variant="outlined"
           onClick={() => removeAnswer({ code, uid: user.id })}
         >
           Clear
-        </button>
+        </Button>
       </div>
     </div>
   )

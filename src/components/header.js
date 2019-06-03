@@ -1,26 +1,31 @@
 import { Link } from "gatsby"
 import PropTypes from "prop-types"
 import React from "react"
+import { Typography } from "@material-ui/core"
+import { useTheme } from "@material-ui/styles"
 
-const Header = ({ siteTitle }) => (
-  <header
-    id="layout-header"
-    style={{
-      background: `rebeccapurple`,
-      height: "5rem",
-      paddingLeft: "2rem",
-    }}
-  >
-    <div
+const Header = ({ siteTitle }) => {
+  const theme = useTheme()
+
+  console.log(theme)
+  return (
+    <header
+      id="layout-header"
       style={{
-        margin: `0 auto`,
-        maxWidth: 960,
-        height: "inherit",
-        display: "flex",
-        alignItems: "center",
+        background: theme.palette.primary.main,
+        height: "5rem",
+        paddingLeft: "2rem",
       }}
     >
-      <h1 style={{ margin: 0 }}>
+      <div
+        style={{
+          margin: `0 auto`,
+          maxWidth: 960,
+          height: "inherit",
+          display: "flex",
+          alignItems: "center",
+        }}
+      >
         <Link
           to="/"
           style={{
@@ -28,12 +33,14 @@ const Header = ({ siteTitle }) => (
             textDecoration: `none`,
           }}
         >
-          {siteTitle}
+          <Typography variant="h3" component="h1">
+            {siteTitle}
+          </Typography>
         </Link>
-      </h1>
-    </div>
-  </header>
-)
+      </div>
+    </header>
+  )
+}
 
 Header.propTypes = {
   siteTitle: PropTypes.string,
