@@ -41,3 +41,9 @@ body {
 body:not(.user-is-tabbing) button:focus {
   outline: none;
 }
+
+input[type="number"]:focus + #code-container {
+  outline: 2px solid #7aacfe;
+  outline: 2px solid Highlight;
+  outline: 5px auto -webkit-focus-ring-color;
+}

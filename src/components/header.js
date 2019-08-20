@@ -4,10 +4,11 @@ import React from "react"
 import { Typography } from "@material-ui/core"
 import { useTheme } from "@material-ui/styles"
 
+import { Emoji } from "./emoji"
+
 const Header = ({ siteTitle }) => {
   const theme = useTheme()
 
-  console.log(theme)
   return (
     <header
       id="layout-header"
@@ -31,11 +32,16 @@ const Header = ({ siteTitle }) => {
           style={{
             color: `white`,
             textDecoration: `none`,
+            display: "flex",
+            alignItems: "center",
           }}
         >
-          <Typography variant="h3" component="h1">
-            {siteTitle}
-          </Typography>
+          <Emoji
+            emojiShortName=":person_raising_hand:"
+            size={64}
+            style={{ maxHeight: "3.5rem", maxWidth: "3.5rem" }}
+            aria-label={`${siteTitle} logo`}
+          />
         </Link>
       </div>
     </header>
